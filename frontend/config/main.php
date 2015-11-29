@@ -38,6 +38,10 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ],
+		'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => 'aYZgsY-iQ9N98qpmjlyJBSRlU6uExOJG',
+        ],
     ],
     'params' => $params,
 ];
