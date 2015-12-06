@@ -87,6 +87,7 @@ class SiteController extends Controller
         $client->setRedirectUri(Yii::$app->params['GRedirectURI']);
         $client->setScopes(['https://www.googleapis.com/auth/youtube']);
         $client->setAccessType('offline');
+        $client->setApprovalPrompt('force');
 
         $youtube = new \Google_Service_YouTube($client);
 
@@ -114,6 +115,12 @@ class SiteController extends Controller
 
         // after auth
         if ($client->getAccessToken()) {
+
+            if($client->isAccessTokenExpired()) {
+                $newToken = json_decode($client->getAccessToken());
+                $client->refreshToken($newToken->refresh_token);
+            }
+
             // get subsriptions, one for all video's
             $subsriptions = $youtube->channels->listChannels("statistics", array(
                 'id' => $channelId
